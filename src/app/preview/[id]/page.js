@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
+import { appStore } from '@/redux/store/store'
 
 const Preview = () => {
     const { id } = useParams()
@@ -31,6 +32,10 @@ const Preview = () => {
         setCurrentIndex((prev) =>
             prev === product.images.length - 1 ? 0 : prev + 1
         )
+    }
+
+    const addToCart=()=>{
+        appStore.dispatch({type:'Cart_Products', payload:product})
     }
 
     if (!product) return <div className='min-h-[100vh]'><p className="text-center mt-10">Loading...</p></div>
@@ -89,6 +94,7 @@ const Preview = () => {
                 {/* Add to Cart Button */}
                 <div className="mt-8">
                     <button
+                    onClick={addToCart}
                         className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg shadow-md transition transform hover:scale-105"
                     >
                         🛒 Add to Cart

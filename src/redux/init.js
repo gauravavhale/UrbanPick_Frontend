@@ -1,16 +1,3 @@
 export const init = {
-    _id : '',
-    id : '',
-    title : '',
-    description: '',
-    category: '',
-    price: '',
-    discountPercentage: '',
-    rating: '',
-    stock: '',
-    brand: '',
-    shippingInformation: '',
-    availabilityStatus: '',
-    images: '',
-    thumbnail: '',
+    cart:[]
 }
