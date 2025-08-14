@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 
 export const ProductCard = ({ Products }) => {
-  return Products.map((product) => (
+  return Products?.map((product) => (
     <div
       key={product.id}
       className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"

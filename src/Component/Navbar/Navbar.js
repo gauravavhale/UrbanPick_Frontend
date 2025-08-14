@@ -104,7 +104,7 @@ export const Navbar = () => {
 
         {/* Right side - Login and Cart */}
         <div className='flex flex-row text-xl font-bold gap-3'>
-          <Link className='hidden md:block' href={'/'}>Login</Link>
+          <Link className='hidden md:block' href={'/login'}>Login</Link>
           <div className='flex flex-row items-center ml-4'>
             <Link href={'/cart'} className="flex items-center">
               <BsCart3 className='mr-1' />
@@ -139,7 +139,7 @@ export const Navbar = () => {
             {link.products.map((product, i) => (
               <Link
                 key={i}
-                href={`/product/${product.category}`}
+                href={`/product/${product}`}
                 className='px-4 py-2 text-gray-700 hover:bg-gradient-to-r hover:from-[#ff6a00] hover:to-[#ee0979] hover:text-white transition-colors duration-200'
                 onClick={() => setISOpen(false)}
               >
