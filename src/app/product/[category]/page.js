@@ -12,21 +12,20 @@ const Product = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/get-products/products-by-category/${category}`)
-        setProducts(response.data)
+        const response = await axios.get(
+          `${apiUrl}/get-products/products-by-category/${category}`
+        );
+        setProducts(response.data);
       } catch (err) {
-            if (err.response) {
-                // Backend responded with a status code not in 200-299
-                setError(err.response.data.error || 'Failed to fetch products');
-            } else if (err.request) {
-                // Request made but no response received
-                setError('No response from server. Please try again later.');
-            } else {
-                // Something else happened
-                setError('Unexpected error occurred');
-            }
-            setProducts([]);
+        if (err.response) {
+          console.error(err.response.data.error || 'Failed to fetch products');
+        } else if (err.request) {
+          console.error('No response from server. Please try again later.');
+        } else {
+          console.error('Unexpected error occurred:', err.message);
         }
+        setProducts([]); // clear products on error
+      }
     }
 
     if (category) {
