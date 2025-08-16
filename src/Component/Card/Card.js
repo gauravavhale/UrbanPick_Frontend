@@ -6,14 +6,14 @@ export const ProductCard = ({ Products }) => {
   return Products?.map((product) => (
     <div
       key={product.id}
-      className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+      className="h-[450px] bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
     >
       {/* Product Image */}
-      <div className="overflow-hidden rounded-t-xl">
+      <div className="h-56 flex items-center justify-center overflow-hidden rounded-t-xl bg-gray-50">
         <img
           src={product.thumbnail}
           alt={product.title}
-          className="w-full h-56 object-cover transform hover:scale-105 transition-transform duration-300"
+          className="max-h-full max-w-full object-contain"
         />
       </div>
 
@@ -58,11 +58,14 @@ export const ProductCard = ({ Products }) => {
           {product.availabilityStatus || "In Stock"}
         </span>
 
-        {/* Spacer */}
+        {/* Spacer to push button down */}
         <div className="flex-grow"></div>
 
         {/* Button */}
-        <Link href={`/preview/${product.id}`} className="mt-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm text-center font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition">
+        <Link
+          href={`/preview/${product.id}`}
+          className="mt-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm text-center font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition"
+        >
           View Details
         </Link>
       </div>
