@@ -3,6 +3,8 @@ import React, { useEffect , useState } from 'react'
 import axios from 'axios'
 import { ProductCard } from '@/Component/Card/Card'
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [products, setProducts] = useState([]);
