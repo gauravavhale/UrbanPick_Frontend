@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useSelector } from 'react-redux';
 
 export const Navbar = () => {
 
   const [isOpen, setISOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
+
+  const length = useSelector((state)=>state.appReducer.cart.length)
 
   const openMenu = () => {
     setISOpen(!isOpen)
@@ -105,10 +108,15 @@ export const Navbar = () => {
         {/* Right side - Login and Cart */}
         <div className='flex flex-row text-xl font-bold gap-3'>
           <Link className='hidden md:block' href={'/login'}>Login</Link>
-          <div className='flex flex-row items-center ml-4'>
-            <Link href={'/cart'} className="flex items-center">
-              <BsCart3 className='mr-1' />
-              Cart
+          <div className="flex flex-row items-center ml-4 relative">
+            <Link href={'/cart'} className="flex items-center relative">
+              <BsCart3 className="mr-1 text-2xl" />
+              <span>Cart</span>
+              {length > 0 && (
+                <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                  {length}
+                </span>
+              )}
             </Link>
           </div>
 
@@ -123,34 +131,36 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       {isMobile && isOpen && (
-  <div className='flex flex-col gap-4 p-4 bg-white border-t shadow-md'>
-    {navLinks.map((link) => (
-      <div key={link.label} className='relative group'>
-        <button className='text-xl font-bold flex items-center justify-between w-full'>
-          {link.label}
-          {link.products?.length > 0 && (
-            <span className='text-sm'>▼</span>
-          )}
-        </button>
-
-        {/* dropdown for mobile */}
-        {link.products?.length > 0 && (
-          <div className='mt-2 flex flex-col bg-white border border-gray-200 rounded-md shadow-md overflow-hidden'>
-            {link.products.map((product, i) => (
-              <Link
-                key={i}
-                href={`/product/${product}`}
-                className='px-4 py-2 text-gray-700 hover:bg-gradient-to-r hover:from-[#ff6a00] hover:to-[#ee0979] hover:text-white transition-colors duration-200'
-                onClick={() => setISOpen(false)}
-              >
-                {product.charAt(0).toUpperCase() + product.slice(1).replace(/-/g, ' ')}
-              </Link>
-            ))}
-          </div>
-        )}
+      <div className="fixed top-[64px] left-0 w-full h-screen overflow-y-auto bg-white border-t shadow-md z-50">
+        <div className='flex flex-col gap-4 p-4 bg-white border-t shadow-md'>
+                {navLinks.map((link) => (
+            <div key={link.label} className='relative group'>
+              <button className='text-xl font-bold flex items-center justify-between w-full'>      
+                {link.label}
+                {link.products?.length > 0 && (
+                <span className='text-sm'>{openDropdown === link.label ? '▲' : '▼'}</span>
+                )}
+              </button>
+      
+              {/* dropdown for mobile */}
+              {link.products?.length > 0 && (
+                <div className='mt-2 flex flex-col bg-white border border-gray-200 rounded-md shadow-md overflow-hidden'>
+                  {link.products.map((product, i) => (
+                    <Link
+                      key={i}
+                      href={`/product/${product}`}
+                      className='px-4 py-2 text-gray-700 hover:bg-gradient-to-r hover:from-[#ff6a00] hover:to-[#ee0979] hover:text-white transition-colors duration-200'
+                      onClick={() => setISOpen(false)}
+                    >
+                      {product.charAt(0).toUpperCase() + product.slice(1).replace(/-/g, ' ')}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
 )}
       
     </div>

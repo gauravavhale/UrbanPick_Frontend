@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const cartProducts = useSelector((state) => state.appReducer.cart) || [];
@@ -8,9 +9,9 @@ const Cart = () => {
   const dispatch = useDispatch()
 
   const removeItem=(id)=>{
+    toast.success('Item Removed')
     dispatch({type:'REMOVE_FROM_CART', payload:id})
   }
-
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-50 flex justify-center">
@@ -38,15 +39,20 @@ const Cart = () => {
                   <div className="flex-1 text-center md:text-left md:flex md:flex-col md:justify-center">
                     <h2 className="text-lg font-semibold">{product.title}</h2>
                     <p className="text-gray-500 text-sm">{product.brand}</p>
-                    <p className="text-gray-700 font-medium mt-1">${typeof product?.price === "number" ? product.price.toFixed(2) : "0.00"}</p>
+                    <p className="text-gray-700 font-medium mt-1">
+                      ${typeof product?.price === "number" ? product.price.toFixed(2) : "0.00"}
+                    </p>
                   </div>
 
-                  {/* Quantity & Remove */}
+                  {/* Extra Info & Remove */}
                   <div className="flex flex-col items-center justify-center gap-2">
-                    <span className="bg-gray-100 px-3 py-1 rounded-lg">
-                      Qty: 1
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm">
+                      Free Delivery
                     </span>
-                    <button onClick={()=>removeItem(product.id)} className="text-red-500 hover:underline text-sm">
+                    <button 
+                      onClick={()=>removeItem(product.id)} 
+                      className="text-red-500 hover:underline text-sm"
+                    >
                       Remove
                     </button>
                   </div>
