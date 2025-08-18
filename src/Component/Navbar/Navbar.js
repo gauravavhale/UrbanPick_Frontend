@@ -107,7 +107,7 @@ export const Navbar = () => {
 
         {/* Right side - Login and Cart */}
         <div className='flex flex-row text-xl font-bold gap-3'>
-          <Link className='hidden md:block' href={'/login'}>Login</Link>
+          <Link className='hidden md:block border-1 px-2 py-1 rounded-sm border-green-500' href={'/login'}>Login</Link>
           <div className="flex flex-row items-center ml-4 relative">
             <Link href={'/cart'} className="flex items-center relative">
               <BsCart3 className="mr-1 text-2xl" />
