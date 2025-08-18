@@ -1,10 +1,16 @@
 "use client"
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Cart = () => {
   const cartProducts = useSelector((state) => state.appReducer.cart) || [];
   const totalAmount = cartProducts.reduce((total, item) => total + item.price, 0);
+  const dispatch = useDispatch()
+
+  const removeItem=(id)=>{
+    dispatch({type:'REMOVE_FROM_CART', payload:id})
+  }
+
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-50 flex justify-center">
@@ -32,7 +38,7 @@ const Cart = () => {
                   <div className="flex-1 text-center md:text-left md:flex md:flex-col md:justify-center">
                     <h2 className="text-lg font-semibold">{product.title}</h2>
                     <p className="text-gray-500 text-sm">{product.brand}</p>
-                    <p className="text-gray-700 font-medium mt-1">${product.price.toFixed(2)}</p>
+                    <p className="text-gray-700 font-medium mt-1">${typeof product?.price === "number" ? product.price.toFixed(2) : "0.00"}</p>
                   </div>
 
                   {/* Quantity & Remove */}
@@ -40,7 +46,7 @@ const Cart = () => {
                     <span className="bg-gray-100 px-3 py-1 rounded-lg">
                       Qty: 1
                     </span>
-                    <button className="text-red-500 hover:underline text-sm">
+                    <button onClick={()=>removeItem(product.id)} className="text-red-500 hover:underline text-sm">
                       Remove
                     </button>
                   </div>

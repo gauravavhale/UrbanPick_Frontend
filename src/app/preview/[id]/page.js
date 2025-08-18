@@ -3,11 +3,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import { appStore } from '@/redux/store/store'
+import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 const Preview = () => {
     const { id } = useParams()
     const [product, setProduct] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0)
+    const cartProducts = useSelector((state)=> state.appReducer.cart);
 
     useEffect(() => {
         if (id) getData()
@@ -35,7 +38,10 @@ const Preview = () => {
     }
 
     const addToCart=()=>{
-        appStore.dispatch({type:'Cart_Products', payload:product})
+        toast.success("Added to cart")
+        if(!cartProducts.find(item => item.id === product.id)){
+            appStore.dispatch({type:'Cart_Products', payload:product})
+        }
     }
 
     if (!product) return <div className='min-h-[100vh]'><p className="text-center mt-10">Loading...</p></div>
