@@ -107,7 +107,7 @@ export const Navbar = () => {
 
         {/* Right side - Login and Cart */}
         <div className='flex flex-row text-xl font-bold gap-3'>
-          <Link className='hidden md:block border-1 px-2 py-1 rounded-sm border-green-500' href={'/login'}>Login</Link>
+          <Link className='hidden md:block ' href={'/login'}>Login</Link>
           <div className="flex flex-row items-center ml-4 relative">
             <Link href={'/cart'} className="flex items-center relative">
               <BsCart3 className="mr-1 text-2xl" />
@@ -131,7 +131,7 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       {isMobile && isOpen && (
-      <div className="fixed top-[64px] left-0 w-full h-screen overflow-y-auto bg-white border-t shadow-md z-50">
+      <div className="fixed top-[64px] left-0 w-full h-screen overflow-y-auto bg-white border-t shadow-md z-50 pb-20">
         <div className='flex flex-col gap-4 p-4 bg-white border-t shadow-md'>
                 {navLinks.map((link) => (
             <div key={link.label} className='relative group'>
@@ -159,10 +159,16 @@ export const Navbar = () => {
               )}
             </div>
           ))}
+          <Link 
+            href="/login" 
+            className="mt-6 w-full text-lg font-semibold text-white bg-gradient-to-r from-[#ff6a00] to-[#ee0979] rounded-xl px-4 py-3 text-center shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
+            onClick={() => setISOpen(false)}  
+          >
+        Login
+      </Link>
         </div>
       </div>
 )}
-      
     </div>
   )
 }
