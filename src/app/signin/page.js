@@ -1,5 +1,8 @@
 "use client"
+import axios from "axios";
 import React, { useState } from "react";
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -8,14 +11,63 @@ const SignUpForm = () => {
     password: "",
   });
 
+  const [errors, setErrors] = useState({});
+
+  // Regex patterns
+  const regex = {
+    fullName: /^[a-zA-Z\s]{3,30}$/, // Only letters & spaces, min 3 chars
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email pattern
+    password: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,20}$/,
+    // Min 6 chars, 1 uppercase, 1 number
+  };
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "fullName":
+        if (!regex.fullName.test(value)) {
+          return "Full name must be 3-30 letters only.";
+        }
+        break;
+      case "email":
+        if (!regex.email.test(value)) {
+          return "Enter a valid email address.";
+        }
+        break;
+      case "password":
+        if (!regex.password.test(value)) {
+          return "Password must be 6-20 chars, include uppercase & number.";
+        }
+        break;
+      default:
+        return "";
+    }
+    return "";
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // validate as user types
+    setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Sign Up Data:", formData);
-    // Add your signup logic here (API call)
+
+    // validate all fields before submit
+    let newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) newErrors[key] = error;
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      console.log("Sign Up Data:", formData);
+      axios.post(`${apiUrl}/auth/signin`)
+    }
   };
 
   return (
@@ -44,10 +96,14 @@ const SignUpForm = () => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              required
               placeholder="John Doe"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.fullName ? "border-red-500 focus:ring-red-500" : "focus:ring-green-500"
+              }`}
             />
+            {errors.fullName && (
+              <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -60,10 +116,14 @@ const SignUpForm = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
               placeholder="you@example.com"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.email ? "border-red-500 focus:ring-red-500" : "focus:ring-green-500"
+              }`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password */}
@@ -76,16 +136,21 @@ const SignUpForm = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              required
               placeholder="••••••••"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.password ? "border-red-500 focus:ring-red-500" : "focus:ring-green-500"
+              }`}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition duration-200"
+            disabled={Object.values(errors).some((err) => err)} // disable if any error exists
+            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-2 rounded-lg font-semibold transition duration-200"
           >
             Sign Up
           </button>
