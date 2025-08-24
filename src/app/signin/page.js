@@ -52,7 +52,7 @@ const SignUpForm = () => {
     setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // validate all fields before submit
@@ -64,9 +64,19 @@ const SignUpForm = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-    } else {
-      console.log("Sign Up Data:", formData);
-      axios.post(`${apiUrl}/auth/signin`)
+    } 
+    
+    try {
+      const response = await axios.post(`${apiUrl}/auth/signin`,formData)
+      const {success , user} = response.data
+      if(success && user._id && user.fullName){
+        alert('Signin Successfull', response.data)
+      } else {
+        alert('Something Went Wrong')
+      }
+      console.log(response.data)
+    } catch(err){
+      alert(err.response.data.message)
     }
   };
 
