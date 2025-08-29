@@ -1,5 +1,7 @@
 "use client"
 import React, { useState } from "react";
+import axios from "axios";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -8,10 +10,14 @@ const LoginForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    // Add your login logic here (API call)
+    try{
+      const response = await axios.post(`${apiUrl}/auth/login`,formData)
+      console.log(response.data);
+    } catch (error){
+      console.log(error)
+    }
   };
 
   return (

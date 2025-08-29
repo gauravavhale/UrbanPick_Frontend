@@ -1,10 +1,12 @@
 "use client"
 import axios from "axios";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 const SignUpForm = () => {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -71,11 +73,13 @@ const SignUpForm = () => {
       const {success , user} = response.data
       if(success && user._id && user.fullName){
         alert('Signin Successfull', response.data)
+        router.push('/')
       } else {
         alert('Something Went Wrong')
       }
       console.log(response.data)
     } catch(err){
+      router.push('/login')
       alert(err.response.data.message)
     }
   };
