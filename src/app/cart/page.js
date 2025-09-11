@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
@@ -61,11 +62,16 @@ const Cart = () => {
             </div>
 
             {/* Total Amount Section */}
-            <div className="mt-8 bg-white shadow-lg rounded-xl p-4 flex justify-between items-center">
-              <span className="text-lg font-semibold">Total:</span>
-              <span className="text-xl font-bold text-green-600">
+            <div className="mt-8 bg-white shadow-lg rounded-xl p-4 flex justify-around items-center">
+              <div>
+                <span className="text-lg font-semibold">Total: </span>
+                <span className="text-xl font-bold text-green-600">
                 ${totalAmount.toFixed(2)}
-              </span>
+                </span>
+              </div>
+              <div>
+                <Link href={'/payments'} className='font-bold text-white bg-red-600 px-2 py-1 rounded-sm'>Proceed To Pay</Link>
+              </div>
             </div>
           </>
         )}

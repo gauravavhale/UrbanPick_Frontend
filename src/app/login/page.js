@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter()
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -14,9 +17,24 @@ const LoginForm = () => {
     e.preventDefault();
     try{
       const response = await axios.post(`${apiUrl}/auth/login`,formData)
+      const {success,user} = response.data
       console.log(response.data);
+      if(success && user.email){
+        toast.success("Login Successfull")
+        router.push('/')
+      }
     } catch (error){
-      console.log(error)
+        if (error.response) {
+        console.log("Error response:", error.response.data);
+        // show backend error message in toast
+        toast.error(error.response.data.message || "Something went wrong");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from server");
+      } else {
+        console.error("Error:", error.message);
+        toast.error("Something went wrong");
+      }
     }
   };
 

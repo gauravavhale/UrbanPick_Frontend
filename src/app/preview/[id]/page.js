@@ -5,11 +5,13 @@ import { useParams } from 'next/navigation'
 import { appStore } from '@/redux/store/store'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
+import { Loader } from '@/Component/Loader/Loader'
 
 const Preview = () => {
     const { id } = useParams()
     const [product, setProduct] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [loading, setLoading] = useState(true)
     const cartProducts = useSelector((state)=> state.appReducer.cart);
 
     useEffect(() => {
@@ -18,10 +20,13 @@ const Preview = () => {
 
     const getData = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(`https://dummyjson.com/products/${id}`)
             setProduct(response.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -44,7 +49,7 @@ const Preview = () => {
         }
     }
 
-    if (!product) return <div className='min-h-[100vh]'><p className="text-center mt-10">Loading...</p></div>
+    if (loading) return <Loader/>
 
     return (
         <div className="max-w-6xl mx-auto p-6 ">

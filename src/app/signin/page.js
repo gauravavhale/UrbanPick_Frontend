@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -71,16 +72,14 @@ const SignUpForm = () => {
     try {
       const response = await axios.post(`${apiUrl}/auth/signin`,formData)
       const {success , user} = response.data
-      if(success && user._id && user.fullName){
-        alert('Signin Successfull', response.data)
-        router.push('/')
-      } else {
-        alert('Something Went Wrong')
-      }
       console.log(response.data)
+      if(success && user.email && user.fullName){
+        router.push('/')
+        toast.success('Signin Successfull', response.data)
+        localStorage.setItem("user", JSON.stringify({email:user.email, fullName:user.fullName}))
+      }
     } catch(err){
-      router.push('/login')
-      alert(err.response.data.message)
+      toast.error(err.response.data.message)
     }
   };
 

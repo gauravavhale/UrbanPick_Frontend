@@ -4,34 +4,45 @@ import axios from 'axios'
 import { ProductCard } from '@/Component/Card/Card'
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 import { toast} from "react-toastify";
+import { Loader } from '@/Component/Loader/Loader';
 
 const App = () => {
   const [products, setProducts] = useState([]);
-
-  useEffect(()=>{
-    getData()
-  },[])
+  const [loading, setLoading] = useState(true);
   
-  const getData=async()=>{
-    try{
-      const response = await axios.get(`${apiUrl}/get-products/products`)
-      setProducts(response.data)
-    } catch (error) {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${apiUrl}/get-products/products`);
+        setProducts(response.data);
+      } catch (error) {
         if (error.response) {
-            // Backend responded with an error status code
-            console.error("Server Error:", error.response.status, error.response.data);
-            toast.error(error.response.data.error || "Something went wrong on the server.");
+          toast.error(error.response.data.error || "Something went wrong on the server.");
         } else if (error.request) {
-            // Request made but no response
-            console.error("No response from server:", error.request);
-            toast.error("Cannot reach server. Please try again later.");
+          toast.error("Cannot reach server. Please try again later.");
         } else {
-            // Error before request was made
-            console.error("Error setting up request:", error.message);
-            toast.error("Unexpected error. Please try again.");
+          toast.error("Unexpected error. Please try again.");
         }
-        setProducts([]); // clear products if error
-    }
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+ 
+  if(loading){
+    return <Loader/>
+  }
+
+  if (!loading && products.length === 0) {
+  return (
+    <div className="flex items-center justify-center w-full h-screen text-gray-500 font-semibold">
+      No Products Found
+    </div>
+  );
   }
 
   return (

@@ -1,8 +1,8 @@
-"use client"
-import React from "react";
 import Link from "next/link";
 
 export const ProductCard = ({ Products }) => {
+
+  // Real product cards
   return Products?.map((product) => (
     <div
       key={product.id}
