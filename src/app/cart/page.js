@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
 
@@ -8,11 +8,35 @@ const Cart = () => {
   const cartProducts = useSelector((state) => state.appReducer.cart) || [];
   const totalAmount = cartProducts.reduce((total, item) => total + item.price, 0);
   const dispatch = useDispatch()
+  const [parsedUser, setParsedUser] = useState(null)
 
   const removeItem=(id)=>{
     toast.success('Item Removed')
     dispatch({type:'REMOVE_FROM_CART', payload:id})
   }
+
+  useEffect(()=>{
+
+    const user = typeof window !== "undefined" ? localStorage.getItem('user') : null;
+    if(user){
+      try{
+        setParsedUser(JSON.parse(user));
+      }catch{
+        setParsedUser(null)
+      }
+    } else {
+      setParsedUser(null)
+      toast.info('Login To Proceed');
+    }
+
+  },[])
+
+  const handleProceed = (e) => {
+    if (!parsedUser) {
+      e.preventDefault(); // stop navigation
+      toast.error("Login to Proceed");
+    }
+  };
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-50 flex justify-center">
@@ -70,7 +94,12 @@ const Cart = () => {
                 </span>
               </div>
               <div>
-                <Link href={'/payments'} className='font-bold text-white bg-red-600 px-2 py-1 rounded-sm'>Proceed To Pay</Link>
+                <Link 
+                href={`/order?total=${totalAmount.toFixed(2)}`} 
+                onClick={handleProceed}
+                className={`font-bold text-white px-2 py-1 rounded-sm ${parsedUser ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed"} `}
+                >Proceed To Order
+                </Link>
               </div>
             </div>
           </>
