@@ -71,8 +71,7 @@ const SignUpForm = () => {
     
     try {
       const response = await axios.post(`${apiUrl}/auth/signin`,formData)
-      const {success , user} = response.data
-      console.log(response.data)
+      const {success , user} = response.data;
       if(success && user.email && user.fullName){
         router.push('/')
         toast.success('Signin Successfull', response.data)

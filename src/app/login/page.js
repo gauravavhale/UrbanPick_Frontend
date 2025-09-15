@@ -19,8 +19,9 @@ const LoginForm = () => {
       const response = await axios.post(`${apiUrl}/auth/login`,formData)
       const {success,user} = response.data
       console.log(response.data);
-      if(success && user.email){
+      if(success && user.email && user.fullName){
         toast.success("Login Successfull")
+        localStorage.setItem('user',JSON.stringify({email:user.email , fullName:user.fullName}))
         router.push('/')
       }
     } catch (error){

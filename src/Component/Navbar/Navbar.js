@@ -45,7 +45,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { label: 'Electronics', products: ["laptops", "smartphones", "tablets", "mobile-accessories", "mens-watches", "womens-watches"] },
-    { label: 'Fashion', products: ["mens-shirts", "mens-shoes", "womens-bags", "womens-dresses", "womens-jewellery", "womens-shoes", "tops", "sunglassestops"] },
+    { label: 'Fashion', products: ["mens-shirts", "mens-shoes", "womens-bags", "womens-dresses", "womens-jewellery", "womens-shoes", "tops"] },
     { label: 'Home & Living', products: ["furniture", "home-decoration", "kitchen-accessories", "groceries", "sports-accessories"] },
     { label: 'Beauty', products: ["beauty", "skin-care", "fragrances"] },
     { label: 'Vehicles', products: ["motorcycle", "vehicle"] },

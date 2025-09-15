@@ -3,12 +3,15 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const Cart = () => {
   const cartProducts = useSelector((state) => state.appReducer.cart) || [];
   const totalAmount = cartProducts.reduce((total, item) => total + item.price, 0);
   const dispatch = useDispatch()
   const [parsedUser, setParsedUser] = useState(null)
+  const router = useRouter()
 
   const removeItem=(id)=>{
     toast.success('Item Removed')
@@ -44,7 +47,19 @@ const Cart = () => {
         <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
 
         {cartProducts.length === 0 ? (
-          <p className="text-gray-500">Your cart is empty.</p>
+          <div className='flex flex-col justify-center items-center min-h-[60vh] text-center space-y-4'>
+            <Image src={'/images/001-bag.png'} width={120} height={120} alt='Empty Cart'/>
+            <p className="text-xl font-semibold text-gray-700">Your cart is empty.</p>
+             <p className="text-gray-500 max-w-sm">
+               Looks like you haven’t added anything yet. Start exploring our products and add your favorites here!
+             </p>
+             <button
+               onClick={() => router.push("/")}
+               className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium shadow-md hover:opacity-90 transition"
+             >
+               Continue Shopping
+             </button>
+          </div>
         ) : (
           <>
             <div className="flex flex-col gap-4">
