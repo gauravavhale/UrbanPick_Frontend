@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export const ProductCard = ({ Products }) => {
@@ -10,10 +11,12 @@ export const ProductCard = ({ Products }) => {
     >
       {/* Product Image */}
       <div className="h-56 flex items-center justify-center overflow-hidden rounded-t-xl bg-gray-50">
-        <img
+        <Image
           src={product.thumbnail}
           alt={product.title}
           className="max-h-full max-w-full object-contain"
+          width={200}
+          height={200}
         />
       </div>
 
