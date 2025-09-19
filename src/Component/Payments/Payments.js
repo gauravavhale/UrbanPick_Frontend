@@ -20,7 +20,7 @@ const PaymentPage = () => {
   },[])
 
   return (
-    <div className="min-h-[100vh] flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-white to-blue-200 p-6">
+    <div className="min-h-[90vh] flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-white to-blue-200 p-6">
       <div className="bg-white shadow-2xl rounded-2xl p-8 flex flex-col items-center w-full max-w-md border border-gray-100">
         
         {/* Greeting */}

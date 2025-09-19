@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/Component/Navbar/Navbar";
-import { Footer } from "@/Component/Footer/Footer";
-import Providers from "./Providers"; // our wrapper
+import FooterWrapper from "./footerWrapper";
+import Providers from "./Providers"; 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +22,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -40,12 +41,12 @@ export default function RootLayout({ children }) {
             pauseOnHover
             theme="dark"
             toastStyle={{
-              maxWidth: "80%",   // prevent full width
+              maxWidth: "70%",   // prevent full width
               margin: "0 auto",  // center on mobile
               borderRadius: "10px",
             }}
           />
-          <Footer />
+          <FooterWrapper/>
         </Providers>
       </body>
     </html>
