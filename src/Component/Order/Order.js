@@ -47,10 +47,10 @@ const Order = () => {
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex justify-center items-start py-10 px-4'>
 
-      <div className='w-full max-w-3xl bg-white shadow-2xl rounded-2xl p-8 border border-gray-100'>
+      <div className='w-full max-w-3xl p-4'>
 
         {/* Page Heading */}
-        <h1 className='font-bold text-3xl mb-8 text-center text-gray-800'>
+        <h1 className='font-bold text-2xl mb-8 text-center text-gray-800'>
           🛒 Place Your Order
         </h1>
 
