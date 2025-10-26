@@ -12,7 +12,12 @@ export const appReducer=(state=init,action)=>{
                 ...state,
                 cart:state.cart.filter(product=>product.id !== action.payload)
             }
-            default:
-                return state
+        case 'CLEAR_CART':
+            return{
+                ...state,
+                cart: []
+            }
+        default:
+            return state
     }
 }

@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
 const Order = () => {
 
   const router = useRouter()
+  const dispatch = useDispatch()
   const searchParams = useSearchParams();
   const totalParams = searchParams.get("total");
 
@@ -36,6 +38,8 @@ const Order = () => {
     }
 
     if(user.email && user.fullName){
+      // Clear the cart in Redux store
+      dispatch({ type: 'CLEAR_CART' })
       router.push(`/payments?total=${finalTotal}`)
     }else{
       toast.error('Login to Order')

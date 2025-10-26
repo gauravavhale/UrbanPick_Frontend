@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -191,9 +192,9 @@ const SignUpForm = () => {
         {/* Login link */}
         <p className="text-sm text-gray-500 text-center mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-green-600 font-medium hover:underline">
+          <Link href="/login" className="text-green-600 font-medium hover:underline">
             Log in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

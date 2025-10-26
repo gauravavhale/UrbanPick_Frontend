@@ -4,6 +4,7 @@ import axios from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter()
@@ -89,9 +90,9 @@ const LoginForm = () => {
 
           {/* Forgot password */}
           <div className="text-right">
-            <a href="#" className="text-sm text-green-600 hover:underline">
+            <Link href="#" className="text-sm text-green-600 hover:underline">
               Forgot password?
-            </a>
+            </Link>
           </div>
 
           {/* Submit */}
@@ -126,9 +127,9 @@ const LoginForm = () => {
         {/* Sign up link */}
         <p className="text-sm text-gray-500 text-center mt-6">
           Don’t have an account?{" "}
-          <a href="/signin" className="text-green-600 font-medium hover:underline">
+          <Link href="/signin" className="text-green-600 font-medium hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>
